@@ -4,3 +4,5 @@ Today I setup this github repo, worked through the simple ITK tutorials and went
 Feb 1
 Played around with some of the segmentation methods in simpleITK, mostly the intensity threshold based ones all on some of the example data they provide. I think tomorrow I need to more quickly explore the rest of the segmentation toolbox and then try and see how I can get it to work on whichever sensitivity of the real data is the easiest.
 
+Feb 2
+Read the definitions for yesterday's segmentation algorithms, and tried a few more of the notebook examples. And think I've pretty much got the syntax figured out. Tomorrow I'll finish the edge detection exercise, look over the rest to see if there is something maybe relevant and then start with doing the white matter gray matter segmentation of an image from the real data set.

@@ -4,8 +4,8 @@ import SimpleITK as sitk
 os.environ['SITK_SHOW_COMMAND'] = '/usr/bin/fiji'
 
 # Load images
-T1 = sitk.ReadImage("../public_images/nac-hncma-atlas/A1_grayT1.nrrd")
-T2 = sitk.ReadImage("../public_images/nac-hncma-atlas/A1_grayT2.nrrd")
+T1 = sitk.ReadImage("../../public_images/nac-hncma-atlas/A1_grayT1.nrrd")
+T2 = sitk.ReadImage("../../public_images/nac-hncma-atlas/A1_grayT2.nrrd")
 
 # Cast to standard rgb ranges for showing
 T1_ldr = sitk.Cast(sitk.RescaleIntensity(T1), sitk.sitkUInt8)
@@ -97,6 +97,7 @@ seg_mask = fm_img < 400
 sitk.Show(sitk.LabelOverlay(T2_ldr, seg_mask), "FM segmentation")
 """
 
+"""
 # Level set based segmentation
 seg_mask = sitk.Image(T1.GetSize(), sitk.sitkUInt8)
 seg_mask.CopyInformation(T1)
@@ -105,6 +106,7 @@ seg_mask = sitk.BinaryDilate(seg_mask, [3, 3, 3])
 
 stats = sitk.LabelStatisticsImageFilter()  # This filter computes the distribution of intensity values in masked region
 stats.Execute(T1, seg_mask)
+
 
 # What is 3.5 sigma above and below the mean?
 factor = 3.5
@@ -128,3 +130,20 @@ lsFilter.ReverseExpansionDirectionOn()
 ls = lsFilter.Execute(init_ls, sitk.Cast(T1, sitk.sitkFloat32))
 
 sitk.Show(sitk.LabelOverlay(T1_ldr, ls > 0))
+"""
+
+# Hole closing
+seg_mask = sitk.ConfidenceConnected(T1,
+                                    seedList=[seed],
+                                    numberOfIterations=1,
+                                    multiplier=2,
+                                    initialNeighborhoodRadius=2,
+                                    replaceValue=1)
+
+sitk.Show(sitk.LabelOverlay(T1_ldr, seg_mask), 'Before hole closure')
+
+Radius = (1, 1, 1)
+kernel = sitk.sitkBall
+cleaned_mask = sitk.BinaryMorphologicalClosing(seg_mask, Radius, kernel)
+
+sitk.Show(sitk.LabelOverlay(T1_ldr, cleaned_mask), 'After hole closure')
