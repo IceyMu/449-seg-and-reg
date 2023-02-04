@@ -6,3 +6,12 @@ Played around with some of the segmentation methods in simpleITK, mostly the int
 
 Feb 2
 Read the definitions for yesterday's segmentation algorithms, and tried a few more of the notebook examples. And think I've pretty much got the syntax figured out. Tomorrow I'll finish the edge detection exercise, look over the rest to see if there is something maybe relevant and then start with doing the white matter gray matter segmentation of an image from the real data set.
+
+Feb 3
+Only got through the last of the notebooks next day I'll start on the segmentation for the real data
+
+
+
+
+# git issues to raise
+- on 34 change slice_number=(0, image.GetSize()[1] - 1), to slice_number=(0, image.GetSize()[2] - 1), to match the previous cell
