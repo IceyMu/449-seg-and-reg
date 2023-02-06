@@ -10,8 +10,10 @@ Read the definitions for yesterday's segmentation algorithms, and tried a few mo
 Feb 3
 Only got through the last of the notebooks next day I'll start on the segmentation for the real data
 
-
+Feb 6
+Toyed with the real data and tried to see how similar images of the same spinal cord section were to each other
 
 
 # git issues to raise
 - on 34 change slice_number=(0, image.GetSize()[1] - 1), to slice_number=(0, image.GetSize()[2] - 1), to match the previous cell
+- results visualization example says Alaph blend rather than Alpha blend
