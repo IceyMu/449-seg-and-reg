@@ -16,6 +16,8 @@ Toyed with the real data and tried to see how similar images of the same spinal 
 Feb 14
 Loosely sorted out which images are less likely to be similar to each other and started working on seeing how well they register together to see how similar the images really are to each other.
 
+Feb 15
+Finished the translation registration of the images from the same spinal cord segment, tomorrow I'll try to get a primitive segmentation pipeline going
 
 # git issues to raise
 - on 34 change slice_number=(0, image.GetSize()[1] - 1), to slice_number=(0, image.GetSize()[2] - 1), to match the previous cell
