@@ -19,6 +19,9 @@ Loosely sorted out which images are less likely to be similar to each other and 
 Feb 15
 Finished the translation registration of the images from the same spinal cord segment, tomorrow I'll try to get a primitive segmentation pipeline going
 
+Feb 16
+Made some seed regions and compared translation only registration to one with rotations
+
 # git issues to raise
 - on 34 change slice_number=(0, image.GetSize()[1] - 1), to slice_number=(0, image.GetSize()[2] - 1), to match the previous cell
 - results visualization example says Alaph blend rather than Alpha blend

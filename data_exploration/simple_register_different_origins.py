@@ -11,7 +11,7 @@ Using DBSI_ADC_BK02_HSC_BB2_C1_Rt1.nii as the fixed image
 """
 
 import os
-import numpy as np
+
 import  matplotlib.pyplot as plt
 import SimpleITK as sitk
 
@@ -61,6 +61,7 @@ output_1 = sitk.Resample(moving_image_1, fixed_image, reg_transform_1, sitk.sitk
 
 # Plot the metric values
 plt.plot(metric_values, label='ihMT_ihMTRex')
+translation_final_metric = metric_values[-1]
 
 # Repeat
 metric_values = []
@@ -74,7 +75,7 @@ plt.ylabel('Correlation Metric')
 plt.xlabel('Iteration step')
 plt.tight_layout()
 #plt.show()
-plt.close()
+#plt.close()
 
 # Save images for comparison in 3d slicer
 sitk.WriteImage(output_1, 'output/ihMT_ihMTRex_cosmod_exp19_BK02_HSC_BB2_C1_Rt1_(registered).nrrd')
@@ -87,10 +88,39 @@ output_2_ldr = sitk.RescaleIntensity(output_2)
 
 composite_1 = sitk.Cast(sitk.Compose(fixed_image_ldr, output_1_ldr, fixed_image_ldr), sitk.sitkVectorUInt8)
 composite_2 = sitk.Cast(sitk.Compose(fixed_image_ldr, output_2_ldr, fixed_image_ldr), sitk.sitkVectorUInt8)
-sitk.Show(composite_1)
-sitk.Show(composite_2)
+#sitk.Show(composite_1)
+#sitk.Show(composite_2)
 
 """
 Visually these give pretty good agreement in the alignment and the butterfly so this will probably suffice for now I
 will probably compose this translation with the non rigid transform used to register the atlas to the other images
+
+Does also including a rotation give much improvement
 """
+euler_transform = sitk.Euler3DTransform()
+
+euler_registration = sitk.ImageRegistrationMethod()
+euler_registration.SetMetricAsCorrelation()
+euler_registration.SetOptimizerAsGradientDescent(learningRate=1.0, numberOfIterations=200)
+euler_registration.SetOptimizerScalesFromPhysicalShift()
+euler_registration.SetInterpolator(sitk.sitkLinear)
+euler_registration.SetInitialTransform(euler_transform, inPlace=False)
+
+euler_registration.AddCommand(sitk.sitkIterationEvent, lambda: append_metric_value(euler_registration.GetMetricValue()))
+
+metric_values = []
+euler_reg_transform = euler_registration.Execute(fixed_image, moving_image_1)
+plt.plot(metric_values, label='Euler registration')
+
+output_euler = sitk.Resample(moving_image_1, fixed_image, euler_reg_transform, sitk.sitkLinear, 0.0, moving_image_1.GetPixelID())
+output_euler_ldr = sitk.RescaleIntensity(output_euler)
+composite_euler = sitk.Cast(sitk.Compose(fixed_image_ldr, output_euler_ldr, fixed_image_ldr), sitk.sitkVectorUInt8)
+
+"""
+The euler registration takes longer to converge and doesn't improve the final metric much
+"""
+
+#sitk.Show(composite_euler)
+euler_final_metric = metric_values[-1]
+print('Translation metric: ', translation_final_metric)
+print('Euler metric: ', euler_final_metric)

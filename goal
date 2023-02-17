@@ -1,0 +1,20 @@
+What presumably needs to be done based on memory:
+
+The overall goal is to extract the values in the regions of interest that are determined by the registration of the atlas onto the images. What values we are trying to pull is something that could maybe be inferred from the matlab code.
+
+What are probably the best steps to achieve this are:
+- Segment out the white matter and grey matter regions on the data
+    - Paint some quick seed regions for an iterative growing method (3d slicer)
+    - Watershed might be feasible for some of the easier ones (python)
+    - Regions with exactly 0 are the background (python)
+    - Hole filling is probably needed (python)
+    - Maybe use some consensus between segmentations of the same spinal cord segment to improve segmentation
+
+- Register the atlas onto the segmented white matter
+    - some non rigid transform is needed preferably one that guarantees continuity
+
+- Use the registered atlas as a mask to create ROIs
+
+- Do calculation on masked pixels
+    - what calculations
+        ¯\_(ツ)_/¯
