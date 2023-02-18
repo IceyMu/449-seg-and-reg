@@ -7,7 +7,7 @@ import SimpleITK as sitk
 
 os.environ['SITK_SHOW_COMMAND'] = '/usr/bin/fiji'
 
-patient_data_path = '../patient_data/BK02_HSC_BB2_C1_Rt1'
+patient_data_path = '../patient_data/BK02_HSC_BB2_C1_Rt1/'
 
 os.chdir(patient_data_path)
 file_list = os.listdir()
@@ -35,6 +35,9 @@ for image in file_list[0:5]:
 # Alpha blending the images rather than compositing them into a vector image
 img1 = sitk.ReadImage(file_list[0])
 img2 = sitk.ReadImage(file_list[1])
+#img1 = sitk.ReadImage('ActiveAx_AxonDensity_BK02_HSC_BB2_C1_Rt1.nii.gz')
+#img2 = sitk.ReadImage('ActiveAx_AxonDiam_BK02_HSC_BB2_C1_Rt1.nii.gz')
+
 
 # Get a simple foreground mask
 outside = 0
@@ -58,7 +61,7 @@ alpha = 0.5
 alpha_blend = alpha * intersection * fg1 + (1 - alpha) * intersection * fg2
 
 #sitk.Show(sitk.RescaleIntensity(intersection), 'intersection')
-#sitk.Show(sitk.RescaleIntensity(alpha_blend), 'alpha blend group A')
+sitk.Show(sitk.RescaleIntensity(alpha_blend), 'alpha blend group A')
 
 # They seem to overlap pretty well but do have spacing differences
 
