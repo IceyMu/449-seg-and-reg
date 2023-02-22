@@ -3,6 +3,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import SimpleITK as sitk
 
+"""
+Probably order of operations
+Load seed points
+Grow
+Load exclusion mask
+Subtract
+Remove islands
+Close holes
+"""
+
 os.environ['SITK_SHOW_COMMAND'] = '/usr/bin/fiji'
 
 img = sitk.ReadImage('../patient_data/BK02_HSC_BB2_C1_Rt1/ActiveAx_AxonDensity_BK02_HSC_BB2_C1_Rt1.nii.gz')
@@ -26,9 +36,6 @@ The problem with the simple thresholding method is the rim of the image is dark,
 """
 
 seed_point = (59, 64, 32)
-seg_mask = sitk.Image(img.GetSize(), sitk.sitkUInt8)
-seg_mask.CopyInformation(img)
-seg_mask[seed_point] = 1
 
 multiplier = 5
 seg_mask = sitk.ConfidenceConnected(img,
@@ -41,7 +48,7 @@ seg_mask = sitk.ConfidenceConnected(img,
 # Explicitly exclude pixels that are too close to the edge in x and y
 
 """
-closing_filter = sitk.BinaryMorphologicalClosingImageFilter()
+closing_filter = sitk.BinaryMorphologicalClosingImageFilter()t
 closing_filter.SetKernelRadius(3)
 closing_filter.SetForegroundValue(1)
 closed_mask = closing_filter.Execute(seg_mask)
@@ -67,5 +74,28 @@ seg_mask = erode_mask * seg_mask
 
 # Close holes
 
-sitk.Show(sitk.LabelOverlay(img_ldr, seg_mask), 'cc')
+closing_filter = sitk.BinaryMorphologicalClosingImageFilter()
+closing_radius = 1
+closing_filter.SetKernelRadius([1]*3)
+closing_filter.SetForegroundValue(255)
+closed_mask = closing_filter.Execute(seg_mask)
 
+#closed_mask = sitk.BinaryClosingByReconstruction(seg_mask, [5, 5, 5])
+
+
+composite = sitk.Compose(closed_mask, seg_mask, closed_mask)
+#sitk.Show(composite, 'hole closing')
+
+"""
+closing_radius = 3
+closed_mask = sitk.BinaryOpeningByReconstruction(seg_mask, [closing_radius]*3)
+closed_mask = sitk.BinaryClosingByReconstruction(closed_mask, [closing_radius]*3)
+
+closed_mask = sitk.BinaryDilate(closed_mask, [closing_radius]*3)
+"""
+#composite = sitk.Compose(closed_mask, seg_mask, closed_mask)
+#sitk.Show(composite, 'hole closing')
+
+#sitk.Show(sitk.LabelOverlay(img_ldr, seg_mask), 'cc')
+sitk.Show(sitk.LabelOverlay(img_ldr, closed_mask), 'cc')
+#sitk.Show(sitk.LabelOverlay(img_ldr, sitk.BinaryDilate(seg_mask, [5]*3)), 'dilate')
