@@ -28,6 +28,9 @@ Start on segmentation of actual data
 Feb 21
 Got a workable automatic segmentation, there may be need to be manual removal of extra features or that may also go away with some slight parameter tweaking
 
+Feb 22
+Good usable segmentation script and started outputting segmentations based on the ActiveAx axon density images
+
 # git issues to raise
 - on 34 change slice_number=(0, image.GetSize()[1] - 1), to slice_number=(0, image.GetSize()[2] - 1), to match the previous cell
 - results visualization example says Alaph blend rather than Alpha blend
