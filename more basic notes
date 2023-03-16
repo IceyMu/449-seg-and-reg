@@ -1,0 +1,14 @@
+T1 imaging has has bright fat, T2 imaging has bright fat and water (gray matter is the bright part)
+
+probably best to run sct on many images and then use some sort of consensus algorithm
+    - either before or after running a cleanup of the images
+
+Data preparation:
+    - crop the images to the actual data
+    - normalize the brightness across slices? (after using a threshold to remove bright spots)
+    - restrict segmentation to less damaged regions
+
+Post processing:
+    - Hole closing
+    - Consensus
+    - Output

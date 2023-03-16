@@ -34,6 +34,18 @@ Good usable segmentation script and started outputting segmentations based on th
 Feb 23
 Normalized image brightness to try and improve segmentation, also need to exclude the fissure from segmentations
 
+Feb 24
+Mostly read about others' approaches to gm segmentation particularly around the spinal cord grey matter segmentation challenge
+
+Feb 26
+Played with some of the registration tools to turn a one or two layer manual segmentation into an entire segmented volume
+
+Feb 27
+Re explored SCT as well as got my hands on DeepSeg, I am going to either use or implement something similar to https://doi.org/10.1016/j.neuroimage.2016.07.062 and if none of these are better than the seed growing approach I am going to bite the bullet and do it mostly manually
+
+Mar 15
+Used sct_deepseg with model seg_exvivo_gm-wm_t2 and looked into sct's templating pipeline
+
 # git issues to raise
 - on 34 change slice_number=(0, image.GetSize()[1] - 1), to slice_number=(0, image.GetSize()[2] - 1), to match the previous cell
 - results visualization example says Alaph blend rather than Alpha blend
