@@ -2,3 +2,5 @@
 /For_Marcus/
 /public_images/
 /data_exploration/output/*
+*.nii.gz
+*.nrrd

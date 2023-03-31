@@ -46,6 +46,9 @@ Re explored SCT as well as got my hands on DeepSeg, I am going to either use or 
 Mar 15
 Used sct_deepseg with model seg_exvivo_gm-wm_t2 and looked into sct's templating pipeline
 
+Mar 16
+Breaking from segmentation and trying to register a hand drawn segmentation
+
 # git issues to raise
 - on 34 change slice_number=(0, image.GetSize()[1] - 1), to slice_number=(0, image.GetSize()[2] - 1), to match the previous cell
 - results visualization example says Alaph blend rather than Alpha blend

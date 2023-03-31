@@ -1,5 +1,17 @@
 T1 imaging has has bright fat, T2 imaging has bright fat and water (gray matter is the bright part)
 
+The dorsal horn extends to the dorsal root and those are on the posterior side of the spinal cord
+
+The fissure is not part of the grey matter
+
+
+
+
+
+
+
+
+
 probably best to run sct on many images and then use some sort of consensus algorithm
     - either before or after running a cleanup of the images
 
